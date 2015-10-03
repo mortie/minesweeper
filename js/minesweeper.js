@@ -175,16 +175,25 @@ class MineSweeper {
 			if (this.gameEnded)
 				return;
 
-			this.getTile(x, y).click(this.tiles);
+			let tile = this.getTile(x, y);
+			if (tile === null)
+				return;
+
+			tile.click(this.tiles);
 			this.draw();
 		});
 
-		events.on("longclick", (x, y) => {
+		let flag = (x, y) => {
 			if (this.gameEnded)
 				return;
 
+			let tile = this.getTile(x, y);
+			if (tile === null)
+				return;
+
+			tile.toggleFlag();
+
 			navigator.vibrate(200);
-			this.getTile(x, y).toggleFlag();
 			this.draw();
 
 			let nFlagged = 0;
@@ -206,7 +215,10 @@ class MineSweeper {
 
 			if (nMinesLeft === 0)
 				this.win();
-		});
+		};
+
+		events.on("longclick", flag);
+		events.on("rightclick", flag);
 
 		events.on("move", (x, y, prevX, prevY) => {
 			this.camera.x -= (x - prevX) / this.zoomLevel;
@@ -220,6 +232,10 @@ class MineSweeper {
 		let size = this.getTileSize();
 		x = Math.floor(x / size);
 		y = Math.floor(y / size);
+
+		if (!this.tiles[x] || !this.tiles[x][y])
+			return null;
+
 		return this.tiles[x][y];
 	}
 

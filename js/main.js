@@ -11,11 +11,11 @@ function $(qs) {
 	return elem;
 }
 
+let canvas = $("#canvas");
+
 let ms;
 
 function startGame(w, h, nMines) {
-	let canvas = document.getElementById("canvas");
-
 	let imgs = {};
 	["tile", "mine", "flag"].forEach((str) => {
 		imgs[str] = $(".imgs ."+str);
@@ -40,6 +40,7 @@ function startGame(w, h, nMines) {
 	$(".controls .nleft").innerHTML = nMines;
 }
 
+//Size canvas correctly
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 window.addEventListener("resize", () => {
@@ -48,12 +49,14 @@ window.addEventListener("resize", () => {
 	ms.draw();
 });
 
+//Prevent unwanted context menus
+canvas.on("contextmenu", (evt) => evt.preventDefault());
+
+//Start game
 startGame(20, 20, 50);
 
-$(".controls .reset").on("click", function() {
-	startGame(20, 20, 50);
-});
-
+//Add controls
+$(".controls .reset").on("click", () => startGame(20, 20, 50));
 $(".controls .zoom-in").on("click", () => ms.zoom(0.2));
 $(".controls .zoom-out").on("click", () => ms.zoom(-0.2));
 $(".controls .zoom-reset").on("click", () => ms.zoom(0));
