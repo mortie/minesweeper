@@ -22,16 +22,25 @@ export class Events {
 
 		elem.addEventListener("touchstart", (evt) => {
 			evt.preventDefault();
-			this.onDown(evt.changedTouches[0].clientX, evt.changedTouches[0].clientY);
+			this.onDown(
+				evt.changedTouches[0].clientX - elem.offsetLeft,
+				evt.changedTouches[0].clientY - elem.offsetTop
+			);
 			this.isTouching = true;
 		});
 		elem.addEventListener("touchmove", (evt) => {
 			evt.preventDefault();
-			this.onMove(evt.changedTouches[0].clientX, evt.changedTouches[0].clientY);
+			this.onMove(
+				evt.changedTouches[0].clientX - elem.offsetLeft,
+				evt.changedTouches[0].clientY - elem.offsetTop
+			);
 		});
 		elem.addEventListener("touchend", (evt) => {
 			evt.preventDefault();
-			this.onUp(evt.changedTouches[0].clientX, evt.changedTouches[0].clientY);
+			this.onUp(
+				evt.changedTouches[0].clientX - elem.offsetLeft,
+				evt.changedTouches[0].clientY - elem.offsetTop
+			);
 			this.isTouching = false;
 		});
 

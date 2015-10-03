@@ -1,0 +1,15 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "Minesweeper.",
+  "main": "bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.mort.coffee/mort/minesweeper.git"
+  },
+  "author": "Martin Dørum Nygaard",
+  "license": "GPL-2.0"
+}
