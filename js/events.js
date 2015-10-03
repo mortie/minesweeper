@@ -6,20 +6,21 @@ export class Events {
 	constructor(elem) {
 		elem.addEventListener("mousedown", (evt) => {
 			evt.preventDefault();
-			if (!this.isTouching && evt.buttons === 1)
+			if (!this.isTouching && evt.button === 0)
 				this.onDown(evt.offsetX, evt.offsetY);
 		});
 		elem.addEventListener("mousemove", (evt) => {
 			evt.preventDefault();
-			if (!this.isTouching && evt.buttons === 1)
+			if (!this.isTouching && evt.button === 0)
 				this.onMove(evt.offsetX, evt.offsetY);
 		});
 		elem.addEventListener("mouseup", (evt) => {
 			evt.preventDefault();
-			if (!this.isTouching && evt.buttons === 1)
+			console.log(evt);
+			if (!this.isTouching && evt.button === 0)
 				this.onUp(evt.offsetX, evt.offsetY);
 
-			if (!this.isTouching && evt.buttons === 2)
+			if (!this.isTouching && evt.button === 2)
 				this.emit("rightclick", evt.offsetX, evt.offsetY);
 		});
 
