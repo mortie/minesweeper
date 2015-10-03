@@ -1,10 +1,7 @@
 CACHE MANIFEST
-#rev 2
-http://d.mort.coffee/app/minesweeper/
-http://d.mort.coffee/app/minesweeper/css/style.css
-http://d.mort.coffee/app/minesweeper/imgs/flag.png
-http://d.mort.coffee/app/minesweeper/imgs/mine.png
-http://d.mort.coffee/app/minesweeper/imgs/tile.png
-http://d.mort.coffee/app/minesweeper/imgs/tile_empty.png
-http://d.mort.coffee/app/minesweeper/bundle.js
-http://d.mort.coffee/app/minesweeper/node_modules/babel-core/browser.min.js
+#rev 3
+css/style.css
+imgs/flag.png
+imgs/mine.png
+imgs/tile.png
+bundle.js
