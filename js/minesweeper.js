@@ -42,27 +42,7 @@ class Tile {
 	}
 
 	draw(ctx, size, tiles) {
-		ctx.drawImage(
-			this.imgs.tile_empty,
-			this.x * size,
-			this.y * size,
-			size,
-			size
-		);
-
-		var img;
-
-		if (!this.isClicked) {
-			img = this.imgs.tile;
-		} else {
-			if (this.isMine) {
-				img = this.imgs.mine;
-			} else {
-				img = null;
-			}
-		}
-
-		if (img !== null) {
+		let drawImg = (img) => {
 			ctx.drawImage(
 				img,
 				this.x * size,
@@ -70,17 +50,15 @@ class Tile {
 				size,
 				size
 			);
-		}
+		};
 
-		if (this.isFlagged) {
-			ctx.drawImage(
-				this.imgs.flag,
-				this.x * size,
-				this.y * size,
-				size,
-				size
-			);
-		}
+		if (!this.isClicked)
+			drawImg(this.imgs.tile);
+		else if (this.isMine)
+			drawImg(this.imgs.mine);
+
+		if (this.isFlagged)
+			drawImg(this.imgs.flag);
 
 		if (this.isClicked && !this.isMine) {
 			var surroundingMines = this.getSurroundingMines(tiles);
@@ -97,6 +75,9 @@ class Tile {
 	}
 
 	getSurroundingTiles(tiles) {
+		if (this.getSurroundingTilesCache)
+			return this.getSurroundingTilesCache;
+
 		if (tiles === undefined)
 			return console.trace(new Error(":("));
 
@@ -119,10 +100,16 @@ class Tile {
 			arr.push(tiles[x+1][y+1]);
 		}
 
-		return arr.filter((tile) => tile !== undefined);
+		arr = arr.filter((tile) => tile !== undefined);
+
+		this.getSurroundingTilesCache = arr;
+		return arr;
 	}
 
 	getSurroundingMines(tiles) {
+		if (this.getSurroundingMinesCache)
+			return this.getSurroundingMinesCache;
+
 		var n = 0;
 
 		this.getSurroundingTiles(tiles).forEach((tile) => {
@@ -130,6 +117,7 @@ class Tile {
 				n += 1;
 		});
 
+		this.getSurroundingMinesCache = n;
 		return n;
 	}
 }
@@ -147,8 +135,12 @@ class MineSweeper {
 		this.tiles = [];
 		this.gameEnded = false;
 		this.zoomLevel = 1;
-		this.camera = {x: 0, y: 0};
 		this.touched = false;
+
+		this.camera = {
+			x: -(canvas.width / 2) + ((this.getTileSize() * width) / 2),
+			y: 0
+		};
 
 		for (i = 0; i < width; ++i) {
 			this.tiles[i] = [];
@@ -174,11 +166,17 @@ class MineSweeper {
 		let events = new Events(canvas);
 
 		events.on("click", (x, y) => {
+			if (this.gameEnded)
+				return;
+
 			this.getTile(x, y).click(this.tiles);
 			this.draw();
 		});
 
 		events.on("longclick", (x, y) => {
+			if (this.gameEnded)
+				return;
+
 			navigator.vibrate(200);
 			this.getTile(x, y).toggleFlag();
 			this.draw();
@@ -246,9 +244,17 @@ class MineSweeper {
 	}
 
 	zoom(n) {
+		if (n === 0) {
+			this.zoomLevel = 1;
+			this.camera.x = -(this.canvas.width / 2) + ((this.getTileSize() * this.width) / 2);
+			this.camera.y = 0;
+			this.draw();
+			return;
+		}
+
 		this.zoomLevel += n;
-		this.camera.x *= n;
-		this.camera.y *= n;
+		this.camera.x /= this.zoomLevel;
+		this.camera.y /= this.zoomLevel;
 		this.draw();
 	}
 

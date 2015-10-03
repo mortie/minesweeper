@@ -14,7 +14,16 @@ html, body {
 	cursor: pointer;
 }
 
+.separator {
+	width: 0px !important;
+	min-width: 0px !important;
+	max-width: 0px !important;
+	padding: 0px !important;
+	border-left: 1px solid black;
+}
+
 .controls {
+	text-align: center;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -27,7 +36,7 @@ html, body {
 	line-height: 30px;
 	display: inline-block;
 	height: 30px;
-	min-width: 30px;
+	min-width: 20px;
 	margin: 0px;
 	padding: 5px;
 	text-align: center;

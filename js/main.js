@@ -17,7 +17,7 @@ function startGame(w, h, nMines) {
 	let canvas = document.getElementById("canvas");
 
 	let imgs = {};
-	["tile", "mine", "flag", "tile_empty"].forEach((str) => {
+	["tile", "mine", "flag"].forEach((str) => {
 		imgs[str] = $(".imgs ."+str);
 		if (!imgs[str])
 			throw new Error("'"+str+"' doesn't match any elements.");
@@ -58,10 +58,6 @@ $(".controls .reset").on("click", function() {
 	startGame(20, 20, 50);
 });
 
-$(".controls .zoom-in").on("click", function() {
-	ms.zoom(0.2);
-});
-
-$(".controls .zoom-out").on("click", function() {
-	ms.zoom(-0.2);
-});
+$(".controls .zoom-in").on("click", () => ms.zoom(0.2));
+$(".controls .zoom-out").on("click", () => ms.zoom(-0.2));
+$(".controls .zoom-reset").on("click", () => ms.zoom(0));
