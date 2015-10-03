@@ -234,7 +234,8 @@ class MineSweeper {
 		this.gameEnded = true;
 		this.tiles.forEach((row) => {
 			row.forEach((tile) => {
-				tile.isClicked = true;
+				if (tile.isMine)
+					tile.isClicked = true;
 			});
 		});
 		this.draw();
