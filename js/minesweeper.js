@@ -127,15 +127,25 @@ class MineSweeper {
 		var i, j;
 
 		this.canvas = canvas;
+		this.offCanvas = document.createElement("canvas");
 		this.imgs = imgs;
 		this.width = width;
 		this.height = height;
 		this.nMines = nMines;
 		this.ctx = canvas.getContext("2d");
+		this.offCtx = this.offCanvas.getContext("2d");
 		this.tiles = [];
 		this.gameEnded = false;
 		this.zoomLevel = 1;
 		this.touched = false;
+
+		//Make offset canvas size match real canvas size
+		this.offCanvas.width = canvas.width;
+		this.offCanvas.height = canvas.height;
+		canvas.addEventListener("resize", () => {
+			this.offCanvas.width = canvas.width;
+			this.offCanvas.height = canvas.height;
+		});
 
 		this.camera = {
 			x: -(canvas.width / 2) + ((this.getTileSize() * width) / 2),
@@ -205,7 +215,7 @@ class MineSweeper {
 		events.on("move", (x, y, prevX, prevY) => {
 			this.camera.x -= (x - prevX) / this.zoomLevel;
 			this.camera.y -= (y - prevY) / this.zoomLevel;
-			this.draw();
+			this.updateCanvas();
 		});
 	}
 
@@ -258,21 +268,27 @@ class MineSweeper {
 		this.draw();
 	}
 
-	draw() {
+	updateCanvas() {
 		this.canvas.width = this.canvas.width;
-
 		this.ctx.save();
 
 		this.ctx.scale(this.zoomLevel, this.zoomLevel);
 		this.ctx.translate(-this.camera.x, -this.camera.y);
+		this.ctx.drawImage(this.offCanvas, 0, 0);
+
+		this.ctx.restore();
+	}
+
+	draw() {
+		this.offCanvas.width = this.offCanvas.width;
 
 		this.tiles.forEach((row, x) => {
 			row.forEach((tile, y) => {
-				tile.draw(this.ctx, this.getTileSize(), this.tiles);
+				tile.draw(this.offCtx, this.getTileSize(), this.tiles);
 			});
 		});
 
-		this.ctx.restore();
+		this.updateCanvas();
 	}
 
 	getTileSize() {

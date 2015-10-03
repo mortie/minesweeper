@@ -1,7 +1,9 @@
 CACHE MANIFEST
-#rev 5
-css/style.css
-imgs/flag.png
-imgs/mine.png
-imgs/tile.png
-bundle.js
+#rev 7
+
+FALLBACK:
+# css/style.css css/style.css
+# imgs/flag.png imgs/flag.png
+# imgs/mine.png imgs/mine.png
+# imgs/tile.png imgs/tile.png
+# bundle.js bundle.js
