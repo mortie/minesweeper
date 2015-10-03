@@ -1,0 +1,113 @@
+function diff(a, b) {
+	return Math.abs(a - b);
+}
+
+export class Events {
+	constructor(elem) {
+		elem.addEventListener("mousedown", (evt) => {
+			evt.preventDefault();
+			if (!this.isTouching)
+				this.onDown(evt.offsetX, evt.offsetY);
+		});
+		elem.addEventListener("mousemove", (evt) => {
+			evt.preventDefault();
+			if (!this.isTouching)
+				this.onMove(evt.offsetX, evt.offsetY);
+		});
+		elem.addEventListener("mouseup", (evt) => {
+			evt.preventDefault();
+			if (!this.isTouching)
+				this.onUp(evt.offsetX, evt.offsetY);
+		});
+
+		elem.addEventListener("touchstart", (evt) => {
+			evt.preventDefault();
+			this.onDown(evt.changedTouches[0].clientX, evt.changedTouches[0].clientY);
+			this.isTouching = true;
+		});
+		elem.addEventListener("touchmove", (evt) => {
+			evt.preventDefault();
+			this.onMove(evt.changedTouches[0].clientX, evt.changedTouches[0].clientY);
+		});
+		elem.addEventListener("touchend", (evt) => {
+			evt.preventDefault();
+			this.onUp(evt.changedTouches[0].clientX, evt.changedTouches[0].clientY);
+			this.isTouching = false;
+		});
+
+		this.cbs = {};
+		this.startPos = {x: 0, y: 0};
+		this.prevPos = {x: 0, y: 0};
+		this.startTime = 0;
+		this.isMoving = false;
+		this.isHolding = false;
+		this.isTouching = false;
+		this.hasLongTouched = false;
+
+		this.prefs = {
+			longTouchTimeout: 200,
+			minMoveDistance: 20
+		};
+	}
+
+	onDown(x, y) {
+		this.isHolding = true;
+		this.startPos = {x, y};
+		this.prevPos = {x, y};
+		this.startTime = new Date().getTime();
+		this.isMoving = false;
+		this.hasLongTouched = false;
+
+		setTimeout(() => {
+			if (this.isMoving || !this.isHolding)
+				return;
+
+			this.hasLongTouched = true;
+			this.emit("longclick", x, y);
+		}, this.prefs.longTouchTimeout);
+	}
+
+	onMove(x, y) {
+		if (!this.isHolding)
+			return;
+
+		if (
+			!this.isMoving && (
+				diff(x, this.startPos.x) > this.prefs.minMoveDistance ||
+				diff(y, this.startPos.y) > this.prefs.minMoveDistance
+			)
+		) {
+			this.isMoving = true;
+		}
+
+		if (this.isMoving)
+			this.emit("move", x, y, this.prevPos.x, this.prevPos.y);
+
+		this.prevPos = {x: x, y: y};
+	}
+
+	onUp(x, y) {
+		this.isHolding = false;
+
+		if (this.isMoving || this.hasLongTouched)
+			return;
+
+		var time = new Date().getTime();
+
+		this.emit("click", x, y);
+	}
+
+	on(name, cb) {
+		if (!this.cbs[name])
+			this.cbs[name] = [];
+
+		this.cbs[name].push(cb);
+	}
+
+	emit(name, ...args) {
+		if (!this.cbs[name])
+			return;
+
+		this.cbs[name].forEach((cb) => cb.apply(null, args));
+	}
+}

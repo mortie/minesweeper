@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html manifest="cache.appcache">
 	<head>
 		<meta charset="utf-8">
 		<title>Minesweeper</title>
 		<link rel="stylesheet" href="css/style.css">
 		<meta name="viewport" content="width=device-width">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link sizes="192x192" rel="apple-touch-icon" href="imgs/homescreen.png">
+		<link sizes="192x192" rel="icon" href="imgs/homescreen.png">
+		<link rel="manifest" href="manifest.json">
 	</head>
 	<body>
 		<div class="hidden imgs">
@@ -13,7 +18,18 @@
 			<img class="flag" src="imgs/flag.png">
 			<img class="tile_empty" src="imgs/tile_empty.png">
 		</div>
-		<canvas id="canvas"></canvas>
+
+		<div class="gui">
+			<div class="controls">
+				<div class="button reset">Reset</div>
+				<img src="imgs/flag.png">
+				<div class="nleft"></div>
+				<div class="button zoom-out">-</div>
+				<div class="button zoom-in">+</div>
+			</div>
+			<canvas id="canvas"></canvas>
+		</div>
+
 		<script src="node_modules/babel-core/browser.min.js"></script>
 		<script src="bundle.js"></script>
 	</body>

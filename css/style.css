@@ -9,3 +9,26 @@ html, body {
 .hidden {
 	display: none;
 }
+
+.button:hover {
+	cursor: pointer;
+}
+
+.controls {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+.controls > * {
+	vertical-align: middle;
+	line-height: 30px;
+	display: inline-block;
+	height: 30px;
+	min-width: 30px;
+	margin: 0px;
+	padding: 5px;
+	text-align: center;
+}
