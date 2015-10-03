@@ -50,10 +50,6 @@ window.addEventListener("resize", () => {
 
 startGame(20, 20, 50);
 
-window.onerror = (message, filename, lineno, colno, error) => {
-	throw error;
-};
-
 $(".controls .reset").on("click", function() {
 	startGame(20, 20, 50);
 });

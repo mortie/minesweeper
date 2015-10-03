@@ -11,5 +11,8 @@
     "url": "http://git.mort.coffee/mort/minesweeper.git"
   },
   "author": "Martin Dørum Nygaard",
-  "license": "GPL-2.0"
+  "license": "GPL-2.0",
+  "devDependencies": {
+    "babelify": "^6.3.0"
+  }
 }

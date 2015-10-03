@@ -139,13 +139,9 @@ class MineSweeper {
 		this.zoomLevel = 1;
 		this.touched = false;
 
-		//Make offset canvas size match real canvas size
-		this.offCanvas.width = canvas.width;
-		this.offCanvas.height = canvas.height;
-		canvas.addEventListener("resize", () => {
-			this.offCanvas.width = canvas.width;
-			this.offCanvas.height = canvas.height;
-		});
+		//Make offset canvas size appropriate
+		this.offCanvas.width = this.getTileSize() * width;
+		this.offCanvas.height = this.getTileSize() * height;
 
 		this.camera = {
 			x: -(canvas.width / 2) + ((this.getTileSize() * width) / 2),
