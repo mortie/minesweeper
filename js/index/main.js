@@ -14,6 +14,13 @@ q("#width").on("keydown", onInput);
 q("#height").on("keydown", onInput);
 q("#nmines").on("keydown", onInput);
 
+function start() {
+	location.href = "game.html#"+
+		q("#width").value+","+
+		q("#height").value+","+
+		q("#nmines").value;
+}
+
 new Events(q("#start")).on("click", () => {
 	if (q("#width").value > 1000)
 		return notify("Please specify a width below 1000.");
@@ -22,8 +29,10 @@ new Events(q("#start")).on("click", () => {
 	else if (q("#nmines").value > 1000)
 		return notify("Please specify a number of mines below 1000.");
 
-	location.href = "game.html#"+
-		q("#width").value+","+
-		q("#height").value+","+
-		q("#nmines").value;
+	if (document.activeElement) {
+		document.activeElement.blur();
+		setTimeout(() => start(), 500);
+	} else {
+		start();
+	}
 });
