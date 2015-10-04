@@ -1,4 +1,5 @@
 import {MineSweeper} from "./minesweeper.js";
+import {Events} from "./events.js";
 
 function $(qs) {
 	let elem = document.querySelector(qs);
@@ -56,7 +57,7 @@ canvas.on("contextmenu", (evt) => evt.preventDefault());
 startGame(20, 20, 50);
 
 //Add controls
-$(".controls .reset").on("click", () => startGame(20, 20, 50));
-$(".controls .zoom-in").on("click", () => ms.zoom(0.2));
-$(".controls .zoom-out").on("click", () => ms.zoom(-0.2));
-$(".controls .zoom-reset").on("click", () => ms.zoom(0));
+new Events($(".controls .reset")).on("click", () => location.reload());
+new Events($(".controls .zoom-in")).on("click", () => ms.zoom(0.2));
+new Events($(".controls .zoom-out")).on("click", () => ms.zoom(-0.2));
+new Events($(".controls .zoom-reset")).on("click", () => ms.zoom(0));
