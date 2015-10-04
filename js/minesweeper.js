@@ -193,7 +193,9 @@ class MineSweeper {
 
 			tile.toggleFlag();
 
-			navigator.vibrate(200);
+			if (navigator.vibrate)
+				navigator.vibrate(200);
+
 			this.draw();
 
 			let nFlagged = 0;
