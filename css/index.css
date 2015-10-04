@@ -1,0 +1,21 @@
+.content {
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.section {
+	text-align: left;
+	width: 90%;
+	max-width: 200px;
+	margin: auto;
+	margin-bottom: 20px;
+}
+.section input {
+	width: 100%;
+}
+
+#start {
+	float: right;
+}

@@ -16,7 +16,6 @@ export class Events {
 		});
 		elem.addEventListener("mouseup", (evt) => {
 			evt.preventDefault();
-			console.log(evt);
 			if (!this.isTouching && evt.button === 0)
 				this.onUp(evt.offsetX, evt.offsetY);
 
@@ -59,7 +58,7 @@ export class Events {
 
 		this.prefs = {
 			longTouchTimeout: 200,
-			minMoveDistance: 20
+			minMoveDistance: 10
 		};
 	}
 
@@ -91,6 +90,7 @@ export class Events {
 			)
 		) {
 			this.isMoving = true;
+			this.emit("movestart", x, y);
 		}
 
 		if (this.isMoving)
@@ -100,6 +100,9 @@ export class Events {
 	}
 
 	onUp(x, y) {
+		if (this.isMoving)
+			this.emit("moveend", x, y);
+
 		this.isHolding = false;
 
 		if (this.isMoving || this.hasLongTouched)

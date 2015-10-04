@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Minesweeper</title>
+		<link rel="stylesheet" href="css/index.css">
 		<link rel="stylesheet" href="css/style.css">
 		<meta name="viewport" content="width=device-width">
 		<meta name="mobile-web-app-capable" content="yes">
@@ -12,30 +13,27 @@
 		<link rel="manifest" href="manifest.json">
 	</head>
 	<body>
-		<div class="hidden imgs">
-			<img class="tile" src="imgs/tile.png">
-			<img class="mine" src="imgs/mine.png">
-			<img class="flag" src="imgs/flag.png">
-		</div>
-
-		<div class="gui">
-			<div class="controls">
-				<img src="imgs/flag.png">
-				<div class="nleft"></div>
-
-				<span class="separator"></span>
-
-				<div class="button zoom-out">-</div>
-				<div class="button zoom-in">+</div>
-				<div class="button zoom-reset">=</div>
-
-				<span class="separator"></span>
-
-				<div class="button reset">Reset</div>
+		<div class="content">
+			<div class="section">
+				Width<br>
+				<input type="number" id="width" value="20">
 			</div>
-			<canvas id="canvas"></canvas>
+			
+			<div class="section">
+				Height<br>
+				<input type="number" id="height" value="20">
+			</div>
+
+			<div class="section">
+				Number Of Mines<br>
+				<input type="number" id="nmines" value="50">
+			</div>
+
+			<div class="section">
+				<div class="button" id="start">Start</div>
+			</div>
 		</div>
 
-		<script src="bundle.js"></script>
+		<script src="bundle-index.js"></script>
 	</body>
 </html>

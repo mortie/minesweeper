@@ -1,4 +1,4 @@
-import {Events} from "./events.js";
+import {Events} from "../events.js";
 
 function randInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -167,8 +167,6 @@ class MineSweeper {
 			this.tiles[x][y] = new Tile(this, imgs, x, y, true);
 		}
 
-		this.draw();
-
 		let events = new Events(canvas);
 
 		events.on("click", (x, y) => {
@@ -222,11 +220,17 @@ class MineSweeper {
 		events.on("longclick", flag);
 		events.on("rightclick", flag);
 
+		events.on("movestart", () => {
+			this.draw(this.offCanvas, this.offCtx, true)
+		});
+		events.on("moveend", () => this.draw());
 		events.on("move", (x, y, prevX, prevY) => {
 			this.camera.x -= (x - prevX) / this.zoomLevel;
 			this.camera.y -= (y - prevY) / this.zoomLevel;
 			this.updateCanvas();
 		});
+
+		this.draw();
 	}
 
 	getTile(x, y) {
@@ -294,20 +298,29 @@ class MineSweeper {
 		this.ctx.restore();
 	}
 
-	draw() {
-		this.offCanvas.width = this.offCanvas.width;
+	draw(canvas, ctx, preventTransform = false) {
+		canvas = canvas || this.canvas;
+		ctx = ctx || this.ctx;
+		canvas.width = canvas.width;
+
+		ctx.save();
+
+		if (!preventTransform) {
+			this.ctx.scale(this.zoomLevel, this.zoomLevel);
+			ctx.translate(-this.camera.x, -this.camera.y);
+		}
 
 		this.tiles.forEach((row, x) => {
 			row.forEach((tile, y) => {
-				tile.draw(this.offCtx, this.getTileSize(), this.tiles);
+				tile.draw(ctx, this.getTileSize(), this.tiles);
 			});
 		});
 
-		this.updateCanvas();
+		ctx.restore();
 	}
 
 	getTileSize() {
-		return 40;
+		return 30;
 	}
 }
 
