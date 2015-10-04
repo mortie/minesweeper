@@ -3,10 +3,10 @@ import {q} from "../q.js";
 import {notify} from "../notify.js";
 
 function onInput(evt) {
-	if (evt.key.length > 1 || evt.ctrlKey || evt.metaKey)
+	if (evt.keyCode === 8 || evt.keyCode === 27 || evt.ctrlKey || evt.metaKey)
 		return;
 
-	if (!/^[0-9]+$/.test(evt.key))
+	if (evt.keyCode <= 48 || evt.keyCode >= 57)
 		evt.preventDefault();
 }
 
