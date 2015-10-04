@@ -14,12 +14,13 @@ html, body {
 	width: 0px !important;
 	min-width: 0px !important;
 	max-width: 0px !important;
-	padding: 0px !important;
+	padding: 0px 5px !important;
 	border-left: 1px solid black;
 }
 
 .controls {
-	text-align: center;
+	padding-right: 15px;
+	text-align: right;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
@@ -39,5 +40,6 @@ html, body {
 }
 
 .controls .left {
+	padding-left: 15px;
 	float: left;
 }

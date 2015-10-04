@@ -3,7 +3,7 @@ import {q} from "../q.js";
 import {notify} from "../notify.js";
 
 function onInput(evt) {
-	if (!evt.isChar || evt.ctrlKey)
+	if (evt.key.length > 1 || evt.ctrlKey || evt.metaKey)
 		return;
 
 	if (!/^[0-9]+$/.test(evt.key))
@@ -36,3 +36,6 @@ new Events(q("#start")).on("click", () => {
 		start();
 	}
 });
+
+//Prevent scrolling
+window.addEventListener("touchmove", (evt) => evt.preventDefault());
