@@ -2,7 +2,7 @@ import {Events} from "../events.js";
 import {q} from "../q.js";
 import {notify} from "../notify.js";
 
-document.body.height = window.innerHeight+"px"
+document.body.style.height = window.innerHeight+"px"
 window.addEventListener("resize", () => document.body.height = window.innerHeight+"px");
 
 function onInput(evt) {
