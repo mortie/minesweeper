@@ -273,7 +273,7 @@ class MineSweeper {
 		this.gameEnded = true;
 
 		if (navigator.vibrate)
-			navigator.vibrate([200, 100, 200, 100, 200]);
+			navigator.vibrate([100, 200, 100, 200, 100]);
 
 		if (this.onwin)
 			this.onwin();
