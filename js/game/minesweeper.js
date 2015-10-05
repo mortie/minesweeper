@@ -221,7 +221,7 @@ class MineSweeper {
 		events.on("rightclick", flag);
 
 		events.on("movestart", () => {
-			this.draw(this.offCanvas, this.offCtx, true)
+			this.draw(this.offCanvas, this.offCtx, true);
 		});
 		events.on("moveend", () => this.draw());
 		events.on("move", (x, y, prevX, prevY) => {
@@ -327,7 +327,7 @@ class MineSweeper {
 	}
 
 	getTileSize() {
-		return 30;
+		return 40;
 	}
 }
 
