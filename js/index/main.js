@@ -13,29 +13,35 @@ function onInput(evt) {
 		evt.preventDefault();
 }
 
-q("#width").on("keydown", onInput);
-q("#height").on("keydown", onInput);
-q("#nmines").on("keydown", onInput);
+let width = q("#width");
+let height = q("#height");
+let nMines = q("#nMines");
+
+width.on("keydown", onInput);
+height.on("keydown", onInput);
+nMines.on("keydown", onInput);
+
+let args = location.hash.substring(1).split(",");
+
+width.value = args[0] || width.value;
+height.value = args[1] || height.value;
+nMines.value = args[2] || nMines.value;
 
 function start() {
 	location.href = "game.html#"+
-		q("#width").value+","+
-		q("#height").value+","+
-		q("#nmines").value;
+		width.value+","+
+		height.value+","+
+		nMines.value;
 }
 
 new Events(q("#start")).on("click", () => {
-	let width = q("#width").value;
-	let height = q("#height").value;
-	let nmines = q("#nmines").value;
-
-	if (width > 1000)
+	if (width.value > 1000)
 		return notify("Please specify a width below 1000.");
-	else if (width > 1000)
+	else if (height.value > 1000)
 		return notify("Please specify a height below 1000.");
-	else if (nmines > 1000)
+	else if (nMines.value > 1000)
 		return notify("Please specify a number of mines below 1000.");
-	else if (nmines > width * height)
+	else if (nMines.value > width.value * height.value)
 		return notify("You can't have more mines than tiles.");
 
 	if (document.activeElement) {

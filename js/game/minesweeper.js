@@ -192,7 +192,7 @@ class MineSweeper {
 			tile.toggleFlag();
 
 			if (navigator.vibrate)
-				navigator.vibrate(200);
+				navigator.vibrate(100);
 
 			this.draw();
 
@@ -262,12 +262,19 @@ class MineSweeper {
 		});
 		this.draw();
 
+		if (navigator.vibrate)
+			navigator.vibrate(1000);
+
 		if (this.onlose)
 			this.onlose();
 	}
 
 	win() {
 		this.gameEnded = true;
+
+		if (navigator.vibrate)
+			navigator.vibrate([200, 100, 200, 100, 200]);
+
 		if (this.onwin)
 			this.onwin();
 	}

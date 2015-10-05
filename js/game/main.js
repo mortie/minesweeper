@@ -3,10 +3,10 @@ import {Events} from "../events.js";
 import {q} from "../q.js";
 import {notify} from "../notify.js";
 
-var args = location.hash.substring(1).split(",");
-var width = args[0];
-var height = args[1];
-var nMines = args[2];
+let args = location.hash.substring(1).split(",");
+let width = args[0];
+let height = args[1];
+let nMines = args[2];
 
 let canvas = q("#canvas");
 
@@ -53,7 +53,9 @@ canvas.on("contextmenu", (evt) => evt.preventDefault());
 startGame(width, height, nMines);
 
 //Add controls
-new Events(q(".controls .back")).on("click", () => location.href = "index.html");
+new Events(q(".controls .back")).on("click", () => {
+	location.href = `index.html#${width},${height},${nMines}`;
+});
 new Events(q(".controls .reset")).on("click", () => location.reload());
 new Events(q(".controls .zoom-in")).on("click", () => ms.zoom(0.2));
 new Events(q(".controls .zoom-out")).on("click", () => ms.zoom(-0.2));
