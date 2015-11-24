@@ -2,7 +2,7 @@ import {Events} from "../events.js";
 import {q} from "../q.js";
 import {notify} from "../notify.js";
 
-document.body.style.height = window.innerHeight+"px"
+document.body.style.height = window.innerHeight+"px";
 window.addEventListener("resize", () => document.body.height = window.innerHeight+"px");
 
 function onInput(evt) {
@@ -26,6 +26,9 @@ let args = location.hash.substring(1).split(",");
 width.value = args[0] || width.value;
 height.value = args[1] || height.value;
 nMines.value = args[2] || nMines.value;
+
+if (localStorage.getItem("state"))
+	start();
 
 function start() {
 	location.href = "game.html#"+

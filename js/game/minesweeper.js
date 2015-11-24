@@ -15,6 +15,28 @@ class Tile {
 		this.isFlagged = false;
 	}
 
+	getState() {
+		return ""+
+			(this.isClicked ? "1" : "0")+
+			(this.isMine ? "1" : "0")+
+			(this.isFlagged ? "1" : "0")+","+
+			this.x+","+
+			this.y;
+	}
+
+	setState(state, game=this.game, imgs=this.imgs) {
+		this.game = game;
+		this.imgs = imgs;
+
+		let parts = state.split(",");
+
+		this.isClicked = (parts[0][0] == "1");
+		this.isMine = (parts[0][1] == "1");
+		this.isFlagged = (parts[0][2] == "2");
+		this.x = parseInt(parts[1]);
+		this.y = parseInt(parts[2]);
+	}
+
 	click(tiles) {
 		if (this.isClicked || this.isFlagged)
 			return;
@@ -179,6 +201,9 @@ class MineSweeper {
 
 			tile.click(this.tiles);
 			this.draw();
+
+			if (this.onchange)
+				this.onchange();
 		});
 
 		let flag = (x, y) => {
@@ -215,6 +240,9 @@ class MineSweeper {
 
 			if (nMinesLeft === 0)
 				this.win();
+
+			if (this.onchange)
+				this.onchange();
 		};
 
 		events.on("longclick", flag);
@@ -228,6 +256,36 @@ class MineSweeper {
 			this.camera.x -= (x - prevX) / this.zoomLevel;
 			this.camera.y -= (y - prevY) / this.zoomLevel;
 			this.updateCanvas();
+		});
+
+		this.draw();
+	}
+
+	getState() {
+		let tiles = "";
+		this.tiles.forEach((row) => {
+			row.forEach((tile) => {
+				tiles += tile.getState() + ";";
+			});
+		});
+		tiles.substring(0, tiles.length - 1);
+
+		return {
+			tiles: tiles
+		};
+	}
+
+	setState(state) {
+		this.tiles = [];
+
+		state.tiles.split(";").forEach((tile) => {
+			let t = new Tile();
+			t.setState(tile, this, this.imgs);
+
+			if (!this.tiles[t.x])
+				this.tiles[t.x] = [];
+
+			this.tiles[t.x][t.y] = t;
 		});
 
 		this.draw();

@@ -22,17 +22,21 @@ function startGame(w, h, nMines) {
 
 	ms = new MineSweeper(canvas, imgs, w, h, nMines);
 
-	ms.onflag = (nLeft) => {
-		q(".controls .nleft").innerHTML = nLeft;
-	};
+	try {
+		if (localStorage.getItem("state"))
+			ms.setState(JSON.parse(localStorage.getItem("state")));
+	} catch (err) {
+		localStorage.setItem("state", "");
+	}
 
-	ms.onlose = () => {
-		notify("You lost!");
-	};
+	ms.onflag = (nLeft) => q(".controls .nleft").innerHTML = nLeft;
 
-	ms.onwin = () => {
-		notify("You won!");
-	};
+	ms.onlose = () => notify("You lost!");
+
+	ms.onwin = () => notify("You won!");
+
+	ms.onchange = () => localStorage.setItem("state", JSON.stringify(ms.getState()));
+	localStorage.setItem("state", JSON.stringify(ms.getState()));
 
 	q(".controls .nleft").innerHTML = nMines;
 }
@@ -46,6 +50,11 @@ window.addEventListener("resize", () => {
 	ms.draw();
 });
 
+//Prevent scrolling
+window.addEventListener("touchmove", (evt) => {
+	evt.preventDefault();
+});
+
 //Prevent unwanted context menus
 canvas.on("contextmenu", (evt) => evt.preventDefault());
 
@@ -54,9 +63,13 @@ startGame(width, height, nMines);
 
 //Add controls
 new Events(q(".controls .back")).on("click", () => {
+	localStorage.setItem("state", "");
 	location.href = `index.html#${width},${height},${nMines}`;
 });
-new Events(q(".controls .reset")).on("click", () => location.reload());
+new Events(q(".controls .reset")).on("click", () => {
+	localStorage.setItem("state", "");
+	location.reload();
+});
 new Events(q(".controls .zoom-in")).on("click", () => ms.zoom(0.2));
 new Events(q(".controls .zoom-out")).on("click", () => ms.zoom(-0.2));
 new Events(q(".controls .zoom-reset")).on("click", () => ms.zoom(0));
