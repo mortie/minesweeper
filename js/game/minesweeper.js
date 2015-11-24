@@ -30,9 +30,10 @@ class Tile {
 
 		let parts = state.split(",");
 
+		console.log(parts[0]);
 		this.isClicked = (parts[0][0] == "1");
 		this.isMine = (parts[0][1] == "1");
-		this.isFlagged = (parts[0][2] == "2");
+		this.isFlagged = (parts[0][2] == "1");
 		this.x = parseInt(parts[1]);
 		this.y = parseInt(parts[2]);
 	}
