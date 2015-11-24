@@ -54,6 +54,9 @@ window.addEventListener("resize", () => {
 window.addEventListener("touchmove", (evt) => {
 	evt.preventDefault();
 });
+window.addEventListener("scroll", (evt) => {
+	window.scrollTo(0, 0);
+});
 
 //Prevent unwanted context menus
 canvas.on("contextmenu", (evt) => evt.preventDefault());
